@@ -30,7 +30,7 @@ public class ConsultaPanel extends JPanel {
       }
    }
 
-   private void loadData() throws SQLException {
+   private void loadData() {
       DatabaseConnection connectNow = new DatabaseConnection();
 
       try (Connection connectDB = connectNow.getConnection()) {
@@ -53,6 +53,9 @@ public class ConsultaPanel extends JPanel {
             JButton btnAgendar = new JButton("Agendar consulta");
 
          }
+      } catch (Exception e) {
+         e.printStackTrace();
       }
+
    }
 }
