@@ -34,7 +34,7 @@ public class CadastroPanel extends JPanel {
          JButton btnCadastrar = new JButton("Cadastrar");
          JButton btnVoltarLogin = new JButton("Voltar");
          
-         btnCadastrar.addActionListener(this::realizarCadastro);
+         btnCadastrar.addActionListener(e -> App.changeScreen("cadastroDois"));
          btnVoltarLogin.addActionListener(e -> App.changeScreen("login"));
          
          add(new JLabel("Nome Completo:"));
