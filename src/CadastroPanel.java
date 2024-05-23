@@ -1,8 +1,11 @@
 import javax.swing.*;
+import javax.swing.text.MaskFormatter;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+
 
 public class CadastroPanel extends JPanel {
 
@@ -15,40 +18,46 @@ public class CadastroPanel extends JPanel {
    private JPasswordField campoConfirmarSenha;
 
    public CadastroPanel() {
-      setLayout(new GridLayout(9, 2));
-
-      campoNomeCompleto = new JTextField();
-      campoCPF = new JTextField();
-      campoTelefone = new JTextField();
-      campoEmail = new JTextField();
-      campoNumeroSaude = new JTextField();
-      campoSenha = new JPasswordField();
-      campoConfirmarSenha = new JPasswordField();
-
-      JButton btnCadastrar = new JButton("Cadastrar");
-      JButton btnVoltarLogin = new JButton("Voltar");
-
-      btnCadastrar.addActionListener(this::realizarCadastro);
-      btnVoltarLogin.addActionListener(e -> App.changeScreen("login"));
-
-      add(new JLabel("Nome Completo:"));
-      add(campoNomeCompleto);
-      add(new JLabel("CPF:"));
-      add(campoCPF);
-      add(new JLabel("Telefone:"));
-      add(campoTelefone);
-      add(new JLabel("Email:"));
-      add(campoEmail);
-      add(new JLabel("Número do Plano de Saúde:"));
-      add(campoNumeroSaude);
-      add(new JLabel("Senha:"));
-      add(campoSenha);
-      add(new JLabel("Confirmar Senha:"));
-      add(campoConfirmarSenha);
-      add(btnCadastrar);
-      add(btnVoltarLogin);
+      try {
+         
+         setLayout(new GridLayout(9, 2));
+         
+         campoNomeCompleto = new JTextField();
+         // private JTextField telefone = new JFormattedTextField(new MaskFormatter("(##) #####-####"));
+         campoCPF = new JFormattedTextField(new MaskFormatter("###.###.###-##") );
+         campoTelefone = new JFormattedTextField(new MaskFormatter("(##) #####-####") );
+         campoEmail = new JTextField();
+         campoNumeroSaude = new JFormattedTextField(new MaskFormatter("#####") );
+         campoSenha = new JPasswordField();
+         campoConfirmarSenha = new JPasswordField();
+         
+         JButton btnCadastrar = new JButton("Cadastrar");
+         JButton btnVoltarLogin = new JButton("Voltar");
+         
+         btnCadastrar.addActionListener(this::realizarCadastro);
+         btnVoltarLogin.addActionListener(e -> App.changeScreen("login"));
+         
+         add(new JLabel("Nome Completo:"));
+         add(campoNomeCompleto);
+         add(new JLabel("CPF:"));
+         add(campoCPF);
+         add(new JLabel("Telefone:"));
+         add(campoTelefone);
+         add(new JLabel("Email:"));
+         add(campoEmail);
+         add(new JLabel("Número do Plano de Saúde:"));
+         add(campoNumeroSaude);
+         add(new JLabel("Senha:"));
+         add(campoSenha);
+         add(new JLabel("Confirmar Senha:"));
+         add(campoConfirmarSenha);
+         add(btnCadastrar);
+         add(btnVoltarLogin);
+      } catch (Exception e) {
+         e.printStackTrace();
+      }
    }
-
+   
    private void realizarCadastro(ActionEvent event) {
       String nome = campoNomeCompleto.getText();
       String cpf = campoCPF.getText();
@@ -57,7 +66,7 @@ public class CadastroPanel extends JPanel {
       String numeroSaude = campoNumeroSaude.getText();
       String senha = new String(campoSenha.getPassword());
       String confirmacaoSenha = new String(campoConfirmarSenha.getPassword());
-
+      
       if (!senha.equals(confirmacaoSenha)) {
          JOptionPane.showMessageDialog(this, "Senhas não correspondem.");
          return;
