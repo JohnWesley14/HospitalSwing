@@ -1,4 +1,6 @@
 import javax.swing.*;
+import javax.swing.text.MaskFormatter;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.sql.Connection;
@@ -6,47 +8,69 @@ import java.sql.PreparedStatement;
 
 public class CadastroPanel extends JPanel {
 
+   private String maskCampoTelefone;
+   private String maskCampoCPF;
    private JTextField campoNomeCompleto;
-   private JTextField campoCPF;
-   private JTextField campoTelefone;
+   private JFormattedTextField campoCPF;
+   private JFormattedTextField campoTelefone;
    private JTextField campoEmail;
-   private JTextField campoNumeroSaude;
+   private JFormattedTextField campoNumeroSaude;
    private JPasswordField campoSenha;
-   private JPasswordField campoConfirmarSenha;
+   private JRadioButton campoSexoMasculino;
+   private JRadioButton campoSexoFeminino;
+   private ButtonGroup grupoSexo;
 
    public CadastroPanel() {
-      setLayout(new GridLayout(9, 2));
+      try {
+         setLayout(new GridLayout(10, 2));
 
-      campoNomeCompleto = new JTextField();
-      campoCPF = new JTextField();
-      campoTelefone = new JTextField();
-      campoEmail = new JTextField();
-      campoNumeroSaude = new JTextField();
-      campoSenha = new JPasswordField();
-      campoConfirmarSenha = new JPasswordField();
+         campoNomeCompleto = new JTextField();
+         campoCPF = new JFormattedTextField(new MaskFormatter("###.###.###-##"));
+         campoTelefone = new JFormattedTextField(new MaskFormatter("(##) #####-####"));
+         campoEmail = new JTextField();
+         campoNumeroSaude = new JFormattedTextField(new MaskFormatter("#####"));
+         campoSenha = new JPasswordField();
+         campoSexoMasculino = new JRadioButton("M");
+         campoSexoFeminino = new JRadioButton("F");
 
-      JButton btnCadastrar = new JButton("Cadastrar");
-      JButton btnVoltarLogin = new JButton("Voltar");
+         // Grupo para os botões de rádio
+         grupoSexo = new ButtonGroup();
+         grupoSexo.add(campoSexoMasculino);
+         grupoSexo.add(campoSexoFeminino);
 
-      btnCadastrar.addActionListener(this::realizarCadastro);
-      btnVoltarLogin.addActionListener(e -> App.changeScreen("login"));
+         JButton btnCadastrar = new JButton("Cadastrar");
+         JButton btnVoltarLogin = new JButton("Voltar");
 
-      add(new JLabel("Nome Completo:"));
-      add(campoNomeCompleto);
-      add(new JLabel("CPF:"));
-      add(campoCPF);
-      add(new JLabel("Telefone:"));
-      add(campoTelefone);
-      add(new JLabel("Email:"));
-      add(campoEmail);
-      add(new JLabel("Número do Plano de Saúde:"));
-      add(campoNumeroSaude);
-      add(new JLabel("Senha:"));
-      add(campoSenha);
-      add(new JLabel("Confirmar Senha:"));
-      add(campoConfirmarSenha);
-      add(btnCadastrar);
-      add(btnVoltarLogin);
+         btnCadastrar.addActionListener(this::realizarCadastro);
+         btnVoltarLogin.addActionListener(e -> App.changeScreen("login"));
+
+         add(new JLabel("Nome Completo:"));
+         add(campoNomeCompleto);
+         add(new JLabel("CPF:"));
+         add(campoCPF);
+         maskCampoCPF = campoCPF.getText();
+         add(new JLabel("Telefone:"));
+         add(campoTelefone);
+         maskCampoTelefone = campoTelefone.getText();
+         add(new JLabel("Email:"));
+         add(campoEmail);
+         add(new JLabel("Número do Plano de Saúde:"));
+         add(campoNumeroSaude);
+         add(new JLabel("Senha:"));
+         add(campoSenha);
+
+         add(new JLabel("Sexo:"));
+         JPanel sexoPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+         sexoPanel.add(campoSexoMasculino);
+         sexoPanel.add(campoSexoFeminino);
+         add(sexoPanel);
+
+         add(btnCadastrar);
+         add(btnVoltarLogin);
+
+      } catch (Exception e) {
+         e.printStackTrace();
+      }
    }
 
    private void realizarCadastro(ActionEvent event) {
@@ -56,29 +80,40 @@ public class CadastroPanel extends JPanel {
       String email = campoEmail.getText();
       String numeroSaude = campoNumeroSaude.getText();
       String senha = new String(campoSenha.getPassword());
-      String confirmacaoSenha = new String(campoConfirmarSenha.getPassword());
 
-      if (!senha.equals(confirmacaoSenha)) {
-         JOptionPane.showMessageDialog(this, "Senhas não correspondem.");
-         return;
+      // Check which radio button is selected
+      String sexo = null;
+      if (grupoSexo.getSelection() != null) {
+         if (grupoSexo.getSelection().equals(campoSexoMasculino.getModel())) {
+            sexo = "M";
+         } else if (grupoSexo.getSelection().equals(campoSexoFeminino.getModel())) {
+            sexo = "F";
+         }
       }
 
-      DatabaseConnection connectNow = new DatabaseConnection();
-      Connection connectDB = connectNow.getConnection();
+      if (cpf.equals(maskCampoCPF)) {
+         JOptionPane.showMessageDialog(this, "Preencha o campo CPF corretamente");
+      } else if (nome.isEmpty() || telefone.isEmpty() || email.isEmpty() || senha.isEmpty() || sexo == null) {
+         JOptionPane.showMessageDialog(this, "Preencha os campos corretamente");
+      } else {
+         DatabaseConnection connectNow = new DatabaseConnection();
+         Connection connectDB = connectNow.getConnection();
 
-      try {
-         String sql = "INSERT INTO pacientes (nome_completo, email, telefone, cpf, numero_plano_saude, senha) VALUES (?, ?, ?, ?, ?, ?)";
-         PreparedStatement statement = connectDB.prepareStatement(sql);
-         statement.setString(1, nome);
-         statement.setString(2, email);
-         statement.setString(3, telefone);
-         statement.setString(4, cpf);
-         statement.setString(5, numeroSaude);
-         statement.setString(6, senha);
-         statement.executeUpdate();
-         JOptionPane.showMessageDialog(this, "Cadastro realizado com sucesso!");
-      } catch (Exception e) {
-         e.printStackTrace();
+         try {
+            String sql = "INSERT INTO pacientes (nome_completo, email, telefone, cpf, numero_plano_saude, senha, sexo) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement statement = connectDB.prepareStatement(sql);
+            statement.setString(1, nome);
+            statement.setString(2, email);
+            statement.setString(3, telefone);
+            statement.setString(4, cpf);
+            statement.setString(5, numeroSaude);
+            statement.setString(6, senha);
+            statement.setString(7, sexo);
+            statement.executeUpdate();
+            JOptionPane.showMessageDialog(this, "Cadastro realizado com sucesso!");
+         } catch (Exception e) {
+            e.printStackTrace();
+         }
       }
    }
 }

@@ -45,6 +45,7 @@ public class LoginPanel extends JPanel {
          String connectQuery = "SELECT * FROM pacientes WHERE cpf=?";
          PreparedStatement statement = connectDB.prepareStatement(connectQuery);
          statement.setString(1, cpf);
+         
 
          ResultSet queryOutput = statement.executeQuery();
          if (queryOutput.next()) {
