@@ -22,6 +22,7 @@ public class CadastroPanel extends JPanel {
 
    public CadastroPanel() {
       try {
+
          setLayout(new GridLayout(10, 2));
 
          campoNomeCompleto = new JTextField();
@@ -41,7 +42,8 @@ public class CadastroPanel extends JPanel {
          JButton btnCadastrar = new JButton("Cadastrar");
          JButton btnVoltarLogin = new JButton("Voltar");
 
-         btnCadastrar.addActionListener(this::realizarCadastro);
+         // btnCadastrar.addActionListener(e -> teste(e, dadosCadastro));
+         btnCadastrar.addActionListener(e -> App.changeScreen("cadastroDois"));
          btnVoltarLogin.addActionListener(e -> App.changeScreen("login"));
 
          add(new JLabel("Nome Completo:"));
@@ -73,6 +75,28 @@ public class CadastroPanel extends JPanel {
       }
    }
 
+   private void teste(ActionEvent event, DadosCadastro dadosCadastro) {
+      String nome = campoNomeCompleto.getText();
+      String cpf = campoCPF.getText();
+      String telefone = campoTelefone.getText();
+      String email = campoEmail.getText();
+      String numeroSaude = campoNumeroSaude.getText();
+      String senha = new String(campoSenha.getPassword());
+
+      dadosCadastro.setNome(nome);
+      dadosCadastro.setCpf(cpf);
+      dadosCadastro.setTelefone(telefone);
+      dadosCadastro.setEmail(email);
+      dadosCadastro.setNumeroSaude(numeroSaude);
+      dadosCadastro.setSenha(senha);
+
+      CadastroDoisPanel cadastroDoisPanel = new CadastroDoisPanel();
+      cadastroDoisPanel.setNome(nome);
+      App.changeScreen("cadastroDois");
+      System.out.println("iupi");
+
+   }
+
    private void realizarCadastro(ActionEvent event) {
       String nome = campoNomeCompleto.getText();
       String cpf = campoCPF.getText();
@@ -96,6 +120,7 @@ public class CadastroPanel extends JPanel {
       } else if (nome.isEmpty() || telefone.isEmpty() || email.isEmpty() || senha.isEmpty() || sexo == null) {
          JOptionPane.showMessageDialog(this, "Preencha os campos corretamente");
       } else {
+
          DatabaseConnection connectNow = new DatabaseConnection();
          Connection connectDB = connectNow.getConnection();
 

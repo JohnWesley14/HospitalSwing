@@ -1,93 +1,133 @@
 import javax.swing.*;
-import javax.swing.text.MaskFormatter;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-
+import java.awt.event.ActionListener;
 
 public class CadastroDoisPanel extends JPanel {
 
-   private JTextField campoNomeCompleto;
-   private JTextField campoCPF;
-   private JTextField campoTelefone;
-   private JTextField campoEmail;
-   private JTextField campoNumeroSaude;
-   private JPasswordField campoSenha;
-   private JPasswordField campoConfirmarSenha;
+   private JTextField txtAlergias;
+   private JTextField txtMedicacoes;
+   private JTextField txtCondicoes;
+   private JTextField txtSeguro;
+   private JTextField txtHistorico;
+   private JButton btnProcurar;
+
+   String nome;
+   String cpf;
+   String telefone;
+   String email;
+   String numeroSaude;
+   String senha;
 
    public CadastroDoisPanel() {
-      try {
-         
-         setLayout(new GridLayout(9, 2));
-         
-         campoNomeCompleto = new JTextField();
-         // private JTextField telefone = new JFormattedTextField(new MaskFormatter("(##) #####-####"));
-         campoCPF = new JFormattedTextField(new MaskFormatter("###.###.###-##") );
-         campoTelefone = new JFormattedTextField(new MaskFormatter("(##) #####-####") );
-         campoEmail = new JTextField();
-         campoNumeroSaude = new JFormattedTextField(new MaskFormatter("#####") );
-         campoSenha = new JPasswordField();
-         campoConfirmarSenha = new JPasswordField();
-         
-         JButton btnCadastrar = new JButton("Cadastrar");
-         JButton btnVoltarLogin = new JButton("Voltar");
-         
-         btnCadastrar.addActionListener(e -> App.changeScreen("cadastroDois"));
-         btnVoltarLogin.addActionListener(e -> App.changeScreen("login"));
-         
-         add(new JLabel("Nome Completo:"));
-         add(campoNomeCompleto);
-         add(new JLabel("CPF:"));
-         add(campoCPF);
-         add(new JLabel("Telefone:"));
-         add(campoTelefone);
-         add(new JLabel("Email:"));
-         add(campoEmail);
-         add(new JLabel("Número do Plano de Saúde:"));
-         add(campoNumeroSaude);
-         add(new JLabel("Senha:"));
-         add(campoSenha);
-         add(new JLabel("Confirmar Senha:"));
-         add(campoConfirmarSenha);
-         add(btnCadastrar);
-         add(btnVoltarLogin);
-      } catch (Exception e) {
-         e.printStackTrace();
+      setLayout(new GridLayout(7, 2, 5, 5));
+
+      JLabel lblHistorico = new JLabel("Histórico médico e odontológico:");
+      txtHistorico = new JTextField();
+      btnProcurar = new JButton("Procurar...");
+      btnProcurar.addActionListener(new ActionListener() {
+         @Override
+         public void actionPerformed(ActionEvent e) {
+            escolherArquivo();
+         }
+      });
+
+      JLabel lblAlergias = new JLabel("Alergias:");
+      txtAlergias = new JTextField();
+
+      JLabel lblMedicacoes = new JLabel("Medicações em uso:");
+      txtMedicacoes = new JTextField();
+
+      JLabel lblCondicoes = new JLabel("Condições médicas pré-existentes:");
+      txtCondicoes = new JTextField();
+
+      JLabel lblSeguro = new JLabel("Informações sobre seguro de saúde (se aplicável):");
+      txtSeguro = new JTextField();
+
+      JButton btnVoltar = new JButton("Voltar");
+      JButton btnCadastrar = new JButton("Cadastrar");
+
+      btnCadastrar.addActionListener(this::fazerCadastro);
+
+      add(lblHistorico);
+      add(txtHistorico);
+      add(new JLabel()); // Placeholder to align the button correctly
+      add(btnProcurar);
+
+      add(lblAlergias);
+      add(txtAlergias);
+
+      add(lblMedicacoes);
+      add(txtMedicacoes);
+
+      add(lblCondicoes);
+      add(txtCondicoes);
+
+      add(lblSeguro);
+      add(txtSeguro);
+
+      add(btnVoltar);
+      add(btnCadastrar);
+   }
+
+   private void escolherArquivo() {
+      JFileChooser fileChooser = new JFileChooser();
+      int returnValue = fileChooser.showOpenDialog(this);
+      if (returnValue == JFileChooser.APPROVE_OPTION) {
+         txtHistorico.setText(fileChooser.getSelectedFile().getPath());
       }
    }
-   
-   private void realizarCadastro(ActionEvent event) {
-      String nome = campoNomeCompleto.getText();
-      String cpf = campoCPF.getText();
-      String telefone = campoTelefone.getText();
-      String email = campoEmail.getText();
-      String numeroSaude = campoNumeroSaude.getText();
-      String senha = new String(campoSenha.getPassword());
-      String confirmacaoSenha = new String(campoConfirmarSenha.getPassword());
-      
-      if (!senha.equals(confirmacaoSenha)) {
-         JOptionPane.showMessageDialog(this, "Senhas não correspondem.");
-         return;
-      }
 
-      DatabaseConnection connectNow = new DatabaseConnection();
-      Connection connectDB = connectNow.getConnection();
+   public void fazerCadastro(ActionEvent event) {
+      System.out.println(nome);
+      System.out.println(getNome());
+   }
 
-      try {
-         String sql = "INSERT INTO pacientes (nome_completo, email, telefone, cpf, numero_plano_saude, senha) VALUES (?, ?, ?, ?, ?, ?)";
-         PreparedStatement statement = connectDB.prepareStatement(sql);
-         statement.setString(1, nome);
-         statement.setString(2, email);
-         statement.setString(3, telefone);
-         statement.setString(4, cpf);
-         statement.setString(5, numeroSaude);
-         statement.setString(6, senha);
-         statement.executeUpdate();
-         JOptionPane.showMessageDialog(this, "Cadastro realizado com sucesso!");
-      } catch (Exception e) {
-         e.printStackTrace();
-      }
+   public String getNome() {
+      return nome;
+   }
+
+   public void setNome(String nome) {
+      this.nome = nome;
+   }
+
+   public String getCpf() {
+      return cpf;
+   }
+
+   public void setCpf(String cpf) {
+      this.cpf = cpf;
+   }
+
+   public String getTelefone() {
+      return telefone;
+   }
+
+   public void setTelefone(String telefone) {
+      this.telefone = telefone;
+   }
+
+   public String getEmail() {
+      return email;
+   }
+
+   public void setEmail(String email) {
+      this.email = email;
+   }
+
+   public String getNumeroSaude() {
+      return numeroSaude;
+   }
+
+   public void setNumeroSaude(String numeroSaude) {
+      this.numeroSaude = numeroSaude;
+   }
+
+   public String getSenha() {
+      return senha;
+   }
+
+   public void setSenha(String senha) {
+      this.senha = senha;
    }
 }

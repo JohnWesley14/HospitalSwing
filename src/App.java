@@ -46,6 +46,7 @@ public class App {
     }
 
     private static JPanel createCadastroPanel() {
+
         return new CadastroPanel();
     }
 
@@ -56,7 +57,8 @@ public class App {
     private static JPanel createConsultaPanel() {
         return new ConsultaPanel();
     }
+
     private static JPanel createCadastroDoisPanel() {
-        return new  CadastroDoisPanel();
+        return new CadastroDoisPanel();
     }
 }
