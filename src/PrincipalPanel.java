@@ -55,8 +55,6 @@ public class PrincipalPanel extends JPanel {
       System.out.print("Cpf: ");
       System.out.println(cpf);
       System.out.println("");
-      AvaliacaoPanel avaliacaoPanel = new AvaliacaoPanel();
-      avaliacaoPanel.puxarAvaliacoes();
 
       App.changeScreen("avaliacao");
    }

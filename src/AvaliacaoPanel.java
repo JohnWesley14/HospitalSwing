@@ -1,17 +1,40 @@
+
 import javax.swing.*;
+
 import java.awt.*;
-import java.awt.event.ActionEvent;
+import java.awt.event.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.awt.event.ActionEvent;
+
+import java.awt.event.MouseAdapter;
 
 public class AvaliacaoPanel extends JPanel {
+   private boolean hasExecuted = false;
+
+   String mensagemHigiene;
+   String mensagemCondicoes;
+   String mensagemSintomas;
+   String mensagemOutrasObservacoes;
+   String medico;
 
    public AvaliacaoPanel() {
-
       setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-      // Adiciona alguns cards de exemplo
+      addMouseListener(new MouseAdapter() {
+         @Override
+         public void mouseEntered(MouseEvent e) {
+            if (hasExecuted != true) {
+
+               puxarAvaliacoes(null);
+               // Função a ser executada quando o mouse entra no componente
+               System.out.println("Mouse está sobre o componente!");
+               hasExecuted = true;
+            }
+         }
+
+      });
 
    }
 
@@ -41,8 +64,7 @@ public class AvaliacaoPanel extends JPanel {
       return card;
    }
 
-   public void puxarAvaliacoes() {
-
+   public void puxarAvaliacoes(ActionEvent e) {
       DatabaseConnection connectAvaliacao = new DatabaseConnection();
       Connection connectDBAvaliacao = connectAvaliacao.getConnection();
 
@@ -58,8 +80,8 @@ public class AvaliacaoPanel extends JPanel {
          statementAvaliacao.setString(1, cpf);
 
          ResultSet queryOutput = statementAvaliacao.executeQuery();
+         removeAll(); // Remove todos os componentes antes de adicionar novos
          while (queryOutput.next()) {
-
             String mensagemHigiene = queryOutput.getString("mensagemHigiene");
             String mensagemCondicoes = queryOutput.getString("mensagemCondicoes");
             String mensagemSintomas = queryOutput.getString("mensagemSintomas");
@@ -72,16 +94,32 @@ public class AvaliacaoPanel extends JPanel {
             System.out.println("Mensagem das Outras Observacoes " + mensagemOutrasObservacoes);
             System.out.println("Nome do médico:" + medico);
 
-            createAvaliacaoCard("Avaliacao", medico, mensagemCondicoes, mensagemSintomas, mensagemHigiene,
-                  mensagemOutrasObservacoes);
-            revalidate();
-            repaint();
-
+            // Adiciona os cards ao painel
+            add(createAvaliacaoCard("Avaliacao", medico, mensagemCondicoes, mensagemSintomas, mensagemHigiene,
+                  mensagemOutrasObservacoes));
          }
 
-      } catch (Exception e) {
-         e.printStackTrace();
-      }
+         // Atualiza a interface gráfica após adicionar todos os cards
+         revalidate();
+         repaint();
 
+      } catch (Exception err) {
+         err.printStackTrace();
+      }
    }
+
+   private static JPanel createCard(String label1Text, String label2Text) {
+      JPanel card = new JPanel();
+      card.setLayout(new GridLayout(2, 1));
+      card.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
+      JLabel label1 = new JLabel(label1Text);
+      JLabel label2 = new JLabel(label2Text);
+
+      card.add(label1);
+      card.add(label2);
+
+      return card;
+   }
+
 }

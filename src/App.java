@@ -53,6 +53,7 @@ public class App {
     }
 
     private static JPanel createPrincipalPanel() {
+
         return new PrincipalPanel();
     }
 
