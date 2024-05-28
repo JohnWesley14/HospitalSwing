@@ -7,17 +7,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.awt.event.ActionEvent;
-
 import java.awt.event.MouseAdapter;
 
 public class AvaliacaoPanel extends JPanel {
    private boolean hasExecuted = false;
-
-   String mensagemHigiene;
-   String mensagemCondicoes;
-   String mensagemSintomas;
-   String mensagemOutrasObservacoes;
-   String medico;
 
    public AvaliacaoPanel() {
       setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -106,20 +99,6 @@ public class AvaliacaoPanel extends JPanel {
       } catch (Exception err) {
          err.printStackTrace();
       }
-   }
-
-   private static JPanel createCard(String label1Text, String label2Text) {
-      JPanel card = new JPanel();
-      card.setLayout(new GridLayout(2, 1));
-      card.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-
-      JLabel label1 = new JLabel(label1Text);
-      JLabel label2 = new JLabel(label2Text);
-
-      card.add(label1);
-      card.add(label2);
-
-      return card;
    }
 
 }
