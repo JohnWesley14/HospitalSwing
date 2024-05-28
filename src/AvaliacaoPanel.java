@@ -40,7 +40,7 @@ public class AvaliacaoPanel extends JPanel {
       card.setMaximumSize(new Dimension(600, 300));
 
       JLabel tituloLabel = new JLabel(titulo);
-      tituloLabel.setFont(new Font("Arial", Font.BOLD, 14));
+
       JLabel medicoLabel = new JLabel(medico);
       JLabel condicoesLabel = new JLabel("<html><b>Condições patológicas:</b> " + condicoes + "</html>");
       JLabel sintomasLabel = new JLabel("<html><b>Sintomas:</b> " + sintomas + "</html>");
