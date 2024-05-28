@@ -45,12 +45,14 @@ public class LoginPanel extends JPanel {
          String connectQuery = "SELECT * FROM pacientes WHERE cpf=?";
          PreparedStatement statement = connectDB.prepareStatement(connectQuery);
          statement.setString(1, cpf);
-         
 
          ResultSet queryOutput = statement.executeQuery();
          if (queryOutput.next()) {
             String senhaDB = queryOutput.getString("senha");
             if (senhaDB.equals(senha)) {
+               DadosCadastro dadosCadastro = DadosCadastro.getInstance();
+               dadosCadastro.setSenha(new String(campoSenha.getPassword()));
+               dadosCadastro.setCpf(campoCPF.getText());
                App.changeScreen("principal");
             } else {
                JOptionPane.showMessageDialog(this, "Login inválido, verifique o CPF e a senha.");

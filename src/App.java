@@ -9,6 +9,7 @@ public class App {
     private static JPanel cadastroDoisPanel;
     private static JPanel consultaPanel;
     private static JPanel principalPanel;
+    private static JPanel avaliacaoPanel;
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(App::createAndShowGUI);
@@ -25,12 +26,14 @@ public class App {
         cadastroDoisPanel = createCadastroDoisPanel();
         principalPanel = createPrincipalPanel();
         consultaPanel = createConsultaPanel();
+        avaliacaoPanel = createAvaliacaoPanel();
 
         frame.add(loginPanel, "login");
         frame.add(cadastroPanel, "cadastro");
         frame.add(cadastroDoisPanel, "cadastroDois");
         frame.add(principalPanel, "principal");
         frame.add(consultaPanel, "agendarConsulta");
+        frame.add(avaliacaoPanel, "avaliacao");
 
         changeScreen("login");
         frame.setVisible(true);
@@ -46,7 +49,6 @@ public class App {
     }
 
     private static JPanel createCadastroPanel() {
-
         return new CadastroPanel();
     }
 
@@ -60,5 +62,9 @@ public class App {
 
     private static JPanel createCadastroDoisPanel() {
         return new CadastroDoisPanel();
+    }
+
+    private static JPanel createAvaliacaoPanel() {
+        return new AvaliacaoPanel();
     }
 }

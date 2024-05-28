@@ -1,5 +1,7 @@
 public class DadosCadastro {
 
+   private static DadosCadastro instance;
+
    private String nome;
    private String cpf;
    private String telefone;
@@ -13,6 +15,13 @@ public class DadosCadastro {
    private String historico;
 
    // Getters and Setters for all fields
+   public static synchronized DadosCadastro getInstance() {
+      if (instance == null) {
+         instance = new DadosCadastro();
+      }
+      return instance;
+   }
+
    public String getNome() {
       return nome;
    }
@@ -27,6 +36,7 @@ public class DadosCadastro {
 
    public void setCpf(String cpf) {
       this.cpf = cpf;
+
    }
 
    public String getTelefone() {

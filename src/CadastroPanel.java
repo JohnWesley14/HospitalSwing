@@ -105,6 +105,11 @@ public class CadastroPanel extends JPanel {
       String numeroSaude = campoNumeroSaude.getText();
       String senha = new String(campoSenha.getPassword());
 
+      DadosCadastro dadosCadastro = DadosCadastro.getInstance();
+      dadosCadastro.setNome(nome);
+      dadosCadastro.setCpf(cpf);
+      ;
+
       // Check which radio button is selected
       String sexo = null;
       if (grupoSexo.getSelection() != null) {

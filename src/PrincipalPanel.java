@@ -1,33 +1,64 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.ActionEvent;
 
 public class PrincipalPanel extends JPanel {
 
    public PrincipalPanel() {
       setLayout(new BorderLayout());
 
-      JLabel labelPrincipal = new JLabel("Bem-vindo ao Sistema Hospitalar", SwingConstants.CENTER);
-      labelPrincipal.setFont(new Font("Arial", Font.BOLD, 18));
+      // Adiciona a barra de título
+      JPanel titlePanel = new JPanel();
+      titlePanel.setBackground(Color.LIGHT_GRAY);
+      JLabel titleLabel = new JLabel("Sorriso+");
+      titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
+      titlePanel.add(titleLabel);
 
-      JButton btnNovoAgendamento = new JButton("Novo Agendamento");
-      JButton btnVoltar = new JButton("Voltar");
+      // Adiciona o menu de navegação
+      JPanel navPanel = new JPanel();
+      navPanel.setBackground(Color.GRAY);
+      JButton homeButton = new JButton("Home");
+      navPanel.add(homeButton);
 
-      btnNovoAgendamento.addMouseListener(new MouseAdapter() {
-         @Override
-         public void mouseClicked(MouseEvent e) {
-            App.changeScreen("agendarConsulta");
-         }
-      });
+      // Painel central com os botões
+      JPanel centerPanel = new JPanel(new GridLayout(2, 3, 10, 10));
+      centerPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-      btnVoltar.addActionListener(e -> App.changeScreen("login"));
+      JButton btnAgendamento = new JButton("Novo Agendamento");
+      JButton btnPerfil = new JButton("Perfil");
+      JButton btnContato = new JButton("Contato");
+      JButton btnAvaliacoes = new JButton("Avaliações");
+      JButton btnDicas = new JButton("Dicas");
+      JButton btnDentistaVirtual = new JButton("Dentista Virtual");
+      JButton btnAjuda = new JButton("Ajuda?");
 
-      JPanel buttonsPanel = new JPanel();
-      buttonsPanel.add(btnNovoAgendamento);
-      buttonsPanel.add(btnVoltar);
+      btnAvaliacoes.addActionListener(this::irParaAvaliacoes);
 
-      add(labelPrincipal, BorderLayout.CENTER);
-      add(buttonsPanel, BorderLayout.SOUTH);
+      centerPanel.add(btnAgendamento);
+      centerPanel.add(btnPerfil);
+      centerPanel.add(btnContato);
+      centerPanel.add(btnAvaliacoes);
+      centerPanel.add(btnDicas);
+      centerPanel.add(btnDentistaVirtual);
+      centerPanel.add(btnAjuda);
+
+      // Adiciona os painéis ao painel principal
+      add(titlePanel, BorderLayout.NORTH);
+      add(navPanel, BorderLayout.SOUTH);
+      add(centerPanel, BorderLayout.CENTER);
    }
+
+   public void irParaAvaliacoes(ActionEvent e) {
+
+      DadosCadastro dadosCadastro = DadosCadastro.getInstance();
+      String cpf = dadosCadastro.getCpf();
+      System.out.print("Cpf: ");
+      System.out.println(cpf);
+      System.out.println("");
+      AvaliacaoPanel avaliacaoPanel = new AvaliacaoPanel();
+      avaliacaoPanel.puxarAvaliacoes();
+
+      App.changeScreen("avaliacao");
+   }
+
 }
