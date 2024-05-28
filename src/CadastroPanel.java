@@ -43,7 +43,7 @@ public class CadastroPanel extends JPanel {
          JButton btnVoltarLogin = new JButton("Voltar");
 
          // btnCadastrar.addActionListener(e -> teste(e, dadosCadastro));
-         btnCadastrar.addActionListener(e -> App.changeScreen("cadastroDois"));
+         btnCadastrar.addActionListener(this::teste);
          btnVoltarLogin.addActionListener(e -> App.changeScreen("login"));
 
          add(new JLabel("Nome Completo:"));
@@ -75,13 +75,15 @@ public class CadastroPanel extends JPanel {
       }
    }
 
-   private void teste(ActionEvent event, DadosCadastro dadosCadastro) {
+   private void teste(ActionEvent e) {
       String nome = campoNomeCompleto.getText();
       String cpf = campoCPF.getText();
       String telefone = campoTelefone.getText();
       String email = campoEmail.getText();
       String numeroSaude = campoNumeroSaude.getText();
       String senha = new String(campoSenha.getPassword());
+
+      DadosCadastro dadosCadastro = DadosCadastro.getInstance();
 
       dadosCadastro.setNome(nome);
       dadosCadastro.setCpf(cpf);
@@ -90,8 +92,6 @@ public class CadastroPanel extends JPanel {
       dadosCadastro.setNumeroSaude(numeroSaude);
       dadosCadastro.setSenha(senha);
 
-      CadastroDoisPanel cadastroDoisPanel = new CadastroDoisPanel();
-      cadastroDoisPanel.setNome(nome);
       App.changeScreen("cadastroDois");
       System.out.println("iupi");
 

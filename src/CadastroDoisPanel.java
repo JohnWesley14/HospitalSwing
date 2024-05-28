@@ -2,6 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 
 public class CadastroDoisPanel extends JPanel {
 
@@ -47,6 +49,7 @@ public class CadastroDoisPanel extends JPanel {
       JButton btnVoltar = new JButton("Voltar");
       JButton btnCadastrar = new JButton("Cadastrar");
 
+      btnVoltar.addActionListener(e -> App.changeScreen("cadastro"));
       btnCadastrar.addActionListener(this::fazerCadastro);
 
       add(lblHistorico);
@@ -74,60 +77,21 @@ public class CadastroDoisPanel extends JPanel {
       JFileChooser fileChooser = new JFileChooser();
       int returnValue = fileChooser.showOpenDialog(this);
       if (returnValue == JFileChooser.APPROVE_OPTION) {
-         txtHistorico.setText(fileChooser.getSelectedFile().getPath());
+         File selectedFile = fileChooser.getSelectedFile();
+         txtHistorico.setText(selectedFile.getPath());
+
+         // Abrir o arquivo com o aplicativo padrão associado
+         try {
+            Desktop.getDesktop().open(selectedFile);
+         } catch (IOException e) {
+            e.printStackTrace();
+         }
       }
    }
 
    public void fazerCadastro(ActionEvent event) {
-      System.out.println(nome);
-      System.out.println(getNome());
-   }
+      DadosCadastro dadosCadastro = DadosCadastro.getInstance();
 
-   public String getNome() {
-      return nome;
-   }
-
-   public void setNome(String nome) {
-      this.nome = nome;
-   }
-
-   public String getCpf() {
-      return cpf;
-   }
-
-   public void setCpf(String cpf) {
-      this.cpf = cpf;
-   }
-
-   public String getTelefone() {
-      return telefone;
-   }
-
-   public void setTelefone(String telefone) {
-      this.telefone = telefone;
-   }
-
-   public String getEmail() {
-      return email;
-   }
-
-   public void setEmail(String email) {
-      this.email = email;
-   }
-
-   public String getNumeroSaude() {
-      return numeroSaude;
-   }
-
-   public void setNumeroSaude(String numeroSaude) {
-      this.numeroSaude = numeroSaude;
-   }
-
-   public String getSenha() {
-      return senha;
-   }
-
-   public void setSenha(String senha) {
-      this.senha = senha;
+      System.out.println(dadosCadastro.getNome());
    }
 }
