@@ -38,6 +38,9 @@ public class LoginPanel extends JPanel {
       String cpf = campoCPF.getText();
       String senha = new String(campoSenha.getPassword());
 
+      System.out.print("Cpf campo");
+      System.out.println(cpf);
+
       DatabaseConnection connectNow = new DatabaseConnection();
       Connection connectDB = connectNow.getConnection();
 
@@ -51,8 +54,30 @@ public class LoginPanel extends JPanel {
             String senhaDB = queryOutput.getString("senha");
             if (senhaDB.equals(senha)) {
                DadosCadastro dadosCadastro = DadosCadastro.getInstance();
+
+               String nome = queryOutput.getString("nome_completo");
+               String email = queryOutput.getString("email");
+               String numeroSaude = queryOutput.getString("numero_plano_saude");
+               String sexo = queryOutput.getString("sexo");
+               String alergias = queryOutput.getString("alergias");
+               String seguro = queryOutput.getString("info_seguro_saude");
+               String medicacoes = queryOutput.getString("medicacoes_uso");
+               String condicoes = queryOutput.getString("condicoes_medicas_preexistentes");
+               String historico = queryOutput.getString("historico_medico");
+
                dadosCadastro.setSenha(new String(campoSenha.getPassword()));
                dadosCadastro.setCpf(campoCPF.getText());
+
+               dadosCadastro.setNome(nome);
+               dadosCadastro.setEmail(email);
+               dadosCadastro.setNumeroSaude(numeroSaude);
+               dadosCadastro.setSexo(sexo);
+               dadosCadastro.setAlergias(alergias);
+               dadosCadastro.setSeguro(seguro);
+               dadosCadastro.setMedicacoes(medicacoes);
+               dadosCadastro.setCondicoes(condicoes);
+               dadosCadastro.setHistorico(historico);
+
                App.changeScreen("principal");
             } else {
                JOptionPane.showMessageDialog(this, "Login inválido, verifique o CPF e a senha.");

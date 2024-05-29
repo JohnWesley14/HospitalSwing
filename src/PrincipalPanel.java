@@ -17,7 +17,8 @@ public class PrincipalPanel extends JPanel {
       // Adiciona o menu de navegação
       JPanel navPanel = new JPanel();
       navPanel.setBackground(Color.GRAY);
-      JButton homeButton = new JButton("Home");
+      JButton homeButton = new JButton("Voltar para o login");
+      homeButton.addActionListener(e -> App.changeScreen("login"));
       navPanel.add(homeButton);
 
       // Painel central com os botões
@@ -33,6 +34,7 @@ public class PrincipalPanel extends JPanel {
       JButton btnAjuda = new JButton("Ajuda?");
 
       btnAvaliacoes.addActionListener(this::irParaAvaliacoes);
+      btnPerfil.addActionListener(this::irParaPerfil);
 
       centerPanel.add(btnAgendamento);
       centerPanel.add(btnPerfil);
@@ -57,6 +59,10 @@ public class PrincipalPanel extends JPanel {
       System.out.println("");
 
       App.changeScreen("avaliacao");
+   }
+
+   public void irParaPerfil(ActionEvent e) {
+      App.changeScreen("perfil");
    }
 
 }

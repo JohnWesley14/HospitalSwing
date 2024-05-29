@@ -10,6 +10,7 @@ public class App {
     private static JPanel consultaPanel;
     private static JPanel principalPanel;
     private static JPanel avaliacaoPanel;
+    private static JPanel perfilPanel;
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(App::createAndShowGUI);
@@ -18,7 +19,7 @@ public class App {
     private static void createAndShowGUI() {
         frame = new JFrame("Hospital");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(600, 450);
+        frame.setSize(600, 600);
         frame.setLayout(new CardLayout());
 
         loginPanel = createLoginPanel();
@@ -27,6 +28,7 @@ public class App {
         principalPanel = createPrincipalPanel();
         consultaPanel = createConsultaPanel();
         avaliacaoPanel = createAvaliacaoPanel();
+        perfilPanel = createPerfilPanel();
 
         frame.add(loginPanel, "login");
         frame.add(cadastroPanel, "cadastro");
@@ -34,6 +36,7 @@ public class App {
         frame.add(principalPanel, "principal");
         frame.add(consultaPanel, "agendarConsulta");
         frame.add(avaliacaoPanel, "avaliacao");
+        frame.add(perfilPanel, "perfil");
 
         changeScreen("login");
         frame.setVisible(true);
@@ -67,5 +70,9 @@ public class App {
 
     private static JPanel createAvaliacaoPanel() {
         return new AvaliacaoPanel();
+    }
+
+    private static JPanel createPerfilPanel() {
+        return new PerfilPanel();
     }
 }
