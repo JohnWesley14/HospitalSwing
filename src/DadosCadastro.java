@@ -65,14 +65,6 @@ public class DadosCadastro {
       this.email = email;
    }
 
-   public String getNumeroSaude() {
-      return numeroSaude;
-   }
-
-   public void setNumeroSaude(String numeroSaude) {
-      this.numeroSaude = numeroSaude;
-   }
-
    public String getSenha() {
       return senha;
    }

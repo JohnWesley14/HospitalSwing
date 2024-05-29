@@ -56,6 +56,7 @@ public class CadastroPanel extends JPanel {
          maskCampoTelefone = campoTelefone.getText();
          add(new JLabel("Email:"));
          add(campoEmail);
+
          add(new JLabel("Número do Plano de Saúde:"));
          add(campoNumeroSaude);
          add(new JLabel("Senha:"));
@@ -80,7 +81,7 @@ public class CadastroPanel extends JPanel {
       String cpf = campoCPF.getText();
       String telefone = campoTelefone.getText();
       String email = campoEmail.getText();
-      String numeroSaude = campoNumeroSaude.getText();
+
       String senha = new String(campoSenha.getPassword());
 
       DadosCadastro dadosCadastro = DadosCadastro.getInstance();
@@ -89,7 +90,7 @@ public class CadastroPanel extends JPanel {
       dadosCadastro.setCpf(cpf);
       dadosCadastro.setTelefone(telefone);
       dadosCadastro.setEmail(email);
-      dadosCadastro.setNumeroSaude(numeroSaude);
+
       dadosCadastro.setSenha(senha);
 
       App.changeScreen("cadastroDois");
@@ -143,7 +144,7 @@ public class CadastroPanel extends JPanel {
             dadosCadastro.setCpf(cpf);
             dadosCadastro.setTelefone(telefone);
             dadosCadastro.setEmail(email);
-            dadosCadastro.setNumeroSaude(numeroSaude);
+
             dadosCadastro.setSenha(senha);
             dadosCadastro.setSexo(sexo);
 

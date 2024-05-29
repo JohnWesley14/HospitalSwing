@@ -3,6 +3,8 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
 import java.awt.*;
 
 public class PerfilPanel extends JPanel {
@@ -34,8 +36,7 @@ public class PerfilPanel extends JPanel {
       String cpf = dadosCadastro.getCpf();
       String telefone = dadosCadastro.getTelefone();
       String email = dadosCadastro.getEmail();
-      String numeroSaude = dadosCadastro.getNumeroSaude();
-      String senha = dadosCadastro.getSenha();
+
       String sexo = dadosCadastro.getSexo();
       String alergias = dadosCadastro.getAlergias();
       String medicacoes = dadosCadastro.getMedicacoes();
@@ -45,8 +46,7 @@ public class PerfilPanel extends JPanel {
 
       // Remova o método createInfo() daqui e chame-o diretamente
 
-      telefone = "0000";
-      JPanel infoPanel = createInfo(nome, cpf, telefone, email, numeroSaude, senha, sexo, alergias, medicacoes,
+      JPanel infoPanel = createInfo(nome, cpf, telefone, email, sexo, alergias, medicacoes,
             condicoes, seguro, historico);
       removeAll(); // Limpa todos os componentes existentes no PerfilPanel
       add(infoPanel); // Adiciona o novo painel de informações
@@ -54,13 +54,13 @@ public class PerfilPanel extends JPanel {
       repaint();
    }
 
-   public JPanel createInfo(String nome, String cpf, String telefone, String email, String numeroSaude, String senha,
+   public JPanel createInfo(String nome, String cpf, String telefone, String email,
          String sexo, String alergias, String medicacoes, String condicoes, String seguro, String historico) {
       // Adiciona labels e valores ao painel
       JPanel card = new JPanel();
-      card.setLayout(new GridLayout(0, 2, 5, 5)); // Configura um layout de grade com 0 linhas e 2 colunas (linhas
-                                                  // automáticas)
-      card.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Adiciona uma margem interna ao painel
+      card.setLayout(new GridLayout(0, 2, 10, 5)); // Configura um layout de grade com 0 linhas e 2 colunas (linhas
+                                                   // automáticas)
+      card.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10)); // Adiciona uma margem interna ao painel
 
       card.add(new JLabel("Nome:"));
       card.add(new JLabel(nome));
@@ -73,12 +73,6 @@ public class PerfilPanel extends JPanel {
 
       card.add(new JLabel("Email:"));
       card.add(new JLabel(email));
-
-      card.add(new JLabel("Número do Plano de Saúde:"));
-      card.add(new JLabel(numeroSaude));
-
-      card.add(new JLabel("Senha:"));
-      card.add(new JLabel(senha));
 
       card.add(new JLabel("Sexo:"));
       card.add(new JLabel(sexo));
@@ -95,8 +89,11 @@ public class PerfilPanel extends JPanel {
       card.add(new JLabel("Seguro:"));
       card.add(new JLabel(seguro));
 
-      card.add(new JLabel("Histórico Médico:"));
-      card.add(new JLabel(historico));
+      // Adiciona o histórico médico em uma área de texto com barra de rolagem
+
+      JButton btnAbrir = new JButton("Abrir");
+      btnAbrir.addActionListener(this::abrirHistorico);
+      card.add(btnAbrir);
 
       JButton btnVoltar = new JButton("Voltar");
       btnVoltar.addActionListener(this::irParaPrincipal);
@@ -106,8 +103,19 @@ public class PerfilPanel extends JPanel {
    }
 
    public void irParaPrincipal(ActionEvent e) {
+
       hasExecuted = false;
       App.changeScreen("principal");
+   }
+
+   public void abrirHistorico(ActionEvent e) {
+      DadosCadastro dadosCadastro = new DadosCadastro().getInstance();
+      try {
+         File arquivo = new File(dadosCadastro.getHistorico());
+         Desktop.getDesktop().open(arquivo);
+      } catch (IOException err) {
+         err.printStackTrace();
+      }
    }
 
 }

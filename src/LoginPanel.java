@@ -1,4 +1,6 @@
 import javax.swing.*;
+import javax.swing.text.MaskFormatter;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.sql.Connection;
@@ -7,31 +9,37 @@ import java.sql.ResultSet;
 
 public class LoginPanel extends JPanel {
 
-   private JTextField campoCPF;
+   private JFormattedTextField campoCPF;
    private JPasswordField campoSenha;
 
    public LoginPanel() {
       setLayout(new GridLayout(6, 2));
 
-      JLabel labelCPF = new JLabel("CPF:");
-      campoCPF = new JTextField();
-      JLabel labelSenha = new JLabel("Senha:");
-      campoSenha = new JPasswordField();
+      try {
 
-      JButton btnEntrar = new JButton("Entrar");
-      JButton btnCadastro = new JButton("Cadastro");
+         JLabel labelCPF = new JLabel("CPF:");
 
-      btnEntrar.addActionListener(this::fazerLogin);
-      btnCadastro.addActionListener(e -> App.changeScreen("cadastro"));
+         campoCPF = new JFormattedTextField(new MaskFormatter("###.###.###-##"));
+         JLabel labelSenha = new JLabel("Senha:");
+         campoSenha = new JPasswordField();
 
-      add(labelCPF);
-      add(campoCPF);
-      add(labelSenha);
-      add(campoSenha);
-      add(new JLabel());
-      add(new JLabel());
-      add(btnEntrar);
-      add(btnCadastro);
+         JButton btnEntrar = new JButton("Entrar");
+         JButton btnCadastro = new JButton("Cadastro");
+
+         btnEntrar.addActionListener(this::fazerLogin);
+         btnCadastro.addActionListener(e -> App.changeScreen("cadastro"));
+
+         add(labelCPF);
+         add(campoCPF);
+         add(labelSenha);
+         add(campoSenha);
+         add(new JLabel());
+         add(new JLabel());
+         add(btnEntrar);
+         add(btnCadastro);
+      } catch (Exception e) {
+         e.printStackTrace();
+      }
    }
 
    private void fazerLogin(ActionEvent event) {
@@ -57,7 +65,8 @@ public class LoginPanel extends JPanel {
 
                String nome = queryOutput.getString("nome_completo");
                String email = queryOutput.getString("email");
-               String numeroSaude = queryOutput.getString("numero_plano_saude");
+
+               String telefone = queryOutput.getString("telefone");
                String sexo = queryOutput.getString("sexo");
                String alergias = queryOutput.getString("alergias");
                String seguro = queryOutput.getString("info_seguro_saude");
@@ -70,13 +79,14 @@ public class LoginPanel extends JPanel {
 
                dadosCadastro.setNome(nome);
                dadosCadastro.setEmail(email);
-               dadosCadastro.setNumeroSaude(numeroSaude);
+
                dadosCadastro.setSexo(sexo);
                dadosCadastro.setAlergias(alergias);
                dadosCadastro.setSeguro(seguro);
                dadosCadastro.setMedicacoes(medicacoes);
                dadosCadastro.setCondicoes(condicoes);
                dadosCadastro.setHistorico(historico);
+               dadosCadastro.setTelefone(telefone);
 
                App.changeScreen("principal");
             } else {

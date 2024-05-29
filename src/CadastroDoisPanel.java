@@ -78,6 +78,8 @@ public class CadastroDoisPanel extends JPanel {
 
          // Abrir o arquivo com o aplicativo padrão associado
          try {
+            System.out.print("selectedFile: ");
+            System.out.println(selectedFile);
             Desktop.getDesktop().open(selectedFile);
          } catch (IOException e) {
             e.printStackTrace();
@@ -101,7 +103,7 @@ public class CadastroDoisPanel extends JPanel {
          String cpf = dadosCadastro.getCpf();
          String telefone = dadosCadastro.getTelefone();
          String email = dadosCadastro.getEmail();
-         String numeroSaude = dadosCadastro.getNumeroSaude();
+
          String senha = dadosCadastro.getSenha();
          String sexo = dadosCadastro.getSexo();
          // Enviando dados
@@ -116,20 +118,19 @@ public class CadastroDoisPanel extends JPanel {
 
          DatabaseConnection connectNow = new DatabaseConnection();
          Connection connectDB = connectNow.getConnection();
-         String sql = "INSERT INTO pacientes (nome_completo, email, telefone, cpf, numero_plano_saude, senha, sexo, alergias, info_Seguro_saude, medicacoes_uso, condicoes_medicas_preexistentes, historico_medico) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+         String sql = "INSERT INTO pacientes (nome_completo, email, telefone, cpf, senha, sexo, alergias, info_Seguro_saude, medicacoes_uso, condicoes_medicas_preexistentes, historico_medico) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
          PreparedStatement statement = connectDB.prepareStatement(sql);
          statement.setString(1, nome);
          statement.setString(2, email);
          statement.setString(3, telefone);
          statement.setString(4, cpf);
-         statement.setString(5, numeroSaude);
-         statement.setString(6, senha);
-         statement.setString(7, sexo);
-         statement.setString(8, alergias);
-         statement.setString(9, seguro);
-         statement.setString(10, medicacoes);
-         statement.setString(11, condicoes);
-         statement.setString(12, historico);
+         statement.setString(5, senha);
+         statement.setString(6, sexo);
+         statement.setString(7, alergias);
+         statement.setString(8, seguro);
+         statement.setString(9, medicacoes);
+         statement.setString(10, condicoes);
+         statement.setString(11, historico);
 
          statement.executeUpdate();
 
