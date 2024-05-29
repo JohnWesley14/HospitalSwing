@@ -6,13 +6,13 @@ import java.awt.event.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
 
 public class AvaliacaoPanel extends JPanel {
    private boolean hasExecuted = false;
+   boolean hasRecords = false;
 
    public AvaliacaoPanel() {
+
       setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
       addMouseListener(new MouseAdapter() {
@@ -47,12 +47,17 @@ public class AvaliacaoPanel extends JPanel {
       JLabel higieneLabel = new JLabel("<html><b>Higiene bucal:</b> " + higiene + "</html>");
       JLabel outrasObservacoesLabel = new JLabel("<html><b>Outras Observações:</b> " + outrasObservacoes + "</html>");
 
+      JButton btnVoltar = new JButton("Voltar");
+      btnVoltar.addActionListener(this::irParaPrincipal);
+
       card.add(tituloLabel);
       card.add(medicoLabel);
       card.add(condicoesLabel);
       card.add(sintomasLabel);
       card.add(higieneLabel);
       card.add(outrasObservacoesLabel);
+
+      card.add(btnVoltar);
 
       return card;
    }
@@ -74,7 +79,9 @@ public class AvaliacaoPanel extends JPanel {
 
          ResultSet queryOutput = statementAvaliacao.executeQuery();
          removeAll(); // Remove todos os componentes antes de adicionar novos
+
          while (queryOutput.next()) {
+            System.out.println("Recordando");
             String mensagemHigiene = queryOutput.getString("mensagemHigiene");
             String mensagemCondicoes = queryOutput.getString("mensagemCondicoes");
             String mensagemSintomas = queryOutput.getString("mensagemSintomas");
@@ -90,6 +97,16 @@ public class AvaliacaoPanel extends JPanel {
             // Adiciona os cards ao painel
             add(createAvaliacaoCard("Avaliacao", medico, mensagemCondicoes, mensagemSintomas, mensagemHigiene,
                   mensagemOutrasObservacoes));
+            hasRecords = true;
+         }
+         if (!hasRecords) {
+            // Se não houver registros, exiba uma mensagem
+            System.out.println("Sem records");
+            JButton btnVoltar = new JButton("Voltar");
+            btnVoltar.addActionListener(this::irParaPrincipal);
+            JLabel noRecordsLabel = new JLabel("Nenhuma avaliação encontrada.");
+            add(noRecordsLabel);
+            add(btnVoltar);
          }
 
          // Atualiza a interface gráfica após adicionar todos os cards
@@ -99,6 +116,12 @@ public class AvaliacaoPanel extends JPanel {
       } catch (Exception err) {
          err.printStackTrace();
       }
+   }
+
+   public void irParaPrincipal(ActionEvent e) {
+      hasRecords = false;
+      hasExecuted = false;
+      App.changeScreen("principal");
    }
 
 }

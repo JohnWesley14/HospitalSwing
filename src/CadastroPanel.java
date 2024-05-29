@@ -136,19 +136,20 @@ public class CadastroPanel extends JPanel {
                } else if (grupoSexo.getSelection().equals(campoSexoFeminino.getModel())) {
                   sexo = "F";
                }
+
+               dadosCadastro.setNome(nome);
+               dadosCadastro.setCpf(cpf);
+               dadosCadastro.setTelefone(telefone);
+               dadosCadastro.setEmail(email);
+
+               dadosCadastro.setSenha(senha);
+               dadosCadastro.setSexo(sexo);
+
+               App.changeScreen("cadastroDois");
             } else {
                JOptionPane.showMessageDialog(this, "Preencha com seu sexo");
             }
 
-            dadosCadastro.setNome(nome);
-            dadosCadastro.setCpf(cpf);
-            dadosCadastro.setTelefone(telefone);
-            dadosCadastro.setEmail(email);
-
-            dadosCadastro.setSenha(senha);
-            dadosCadastro.setSexo(sexo);
-
-            App.changeScreen("cadastroDois");
          } catch (Exception e) {
             e.printStackTrace();
          }
