@@ -43,7 +43,7 @@ public class CadastroPanel extends JPanel {
          JButton btnVoltarLogin = new JButton("Voltar");
 
          // btnCadastrar.addActionListener(e -> teste(e, dadosCadastro));
-         btnCadastrar.addActionListener(this::teste);
+         btnCadastrar.addActionListener(this::realizarCadastro);
          btnVoltarLogin.addActionListener(e -> App.changeScreen("login"));
 
          add(new JLabel("Nome Completo:"));
@@ -105,42 +105,49 @@ public class CadastroPanel extends JPanel {
       String numeroSaude = campoNumeroSaude.getText();
       String senha = new String(campoSenha.getPassword());
 
-      DadosCadastro dadosCadastro = DadosCadastro.getInstance();
-      dadosCadastro.setNome(nome);
-      dadosCadastro.setCpf(cpf);
-      ;
-
       // Check which radio button is selected
-      String sexo = null;
-      if (grupoSexo.getSelection() != null) {
-         if (grupoSexo.getSelection().equals(campoSexoMasculino.getModel())) {
-            sexo = "M";
-         } else if (grupoSexo.getSelection().equals(campoSexoFeminino.getModel())) {
-            sexo = "F";
-         }
-      }
 
       if (cpf.equals(maskCampoCPF)) {
          JOptionPane.showMessageDialog(this, "Preencha o campo CPF corretamente");
-      } else if (nome.isEmpty() || telefone.isEmpty() || email.isEmpty() || senha.isEmpty() || sexo == null) {
+      } else if (nome.isEmpty() || telefone.isEmpty() || email.isEmpty() || senha.isEmpty()) {
          JOptionPane.showMessageDialog(this, "Preencha os campos corretamente");
       } else {
 
-         DatabaseConnection connectNow = new DatabaseConnection();
-         Connection connectDB = connectNow.getConnection();
-
          try {
-            String sql = "INSERT INTO pacientes (nome_completo, email, telefone, cpf, numero_plano_saude, senha, sexo) VALUES (?, ?, ?, ?, ?, ?, ?)";
-            PreparedStatement statement = connectDB.prepareStatement(sql);
-            statement.setString(1, nome);
-            statement.setString(2, email);
-            statement.setString(3, telefone);
-            statement.setString(4, cpf);
-            statement.setString(5, numeroSaude);
-            statement.setString(6, senha);
-            statement.setString(7, sexo);
-            statement.executeUpdate();
-            JOptionPane.showMessageDialog(this, "Cadastro realizado com sucesso!");
+            // DatabaseConnection connectNow = new DatabaseConnection();
+            // Connection connectDB = connectNow.getConnection();
+            // String sql = "INSERT INTO pacientes (nome_completo, email, telefone, cpf,
+            // numero_plano_saude, senha, sexo) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            // PreparedStatement statement = connectDB.prepareStatement(sql);
+            // statement.setString(1, nome);
+            // statement.setString(2, email);
+            // statement.setString(3, telefone);
+            // statement.setString(4, cpf);
+            // statement.setString(5, numeroSaude);
+            // statement.setString(6, senha);
+            // statement.setString(7, sexo);
+            // statement.executeUpdate();
+            String sexo = null;
+            DadosCadastro dadosCadastro = DadosCadastro.getInstance();
+            if (grupoSexo.getSelection() != null) {
+               if (grupoSexo.getSelection().equals(campoSexoMasculino.getModel())) {
+                  sexo = "M";
+               } else if (grupoSexo.getSelection().equals(campoSexoFeminino.getModel())) {
+                  sexo = "F";
+               }
+            } else {
+               JOptionPane.showMessageDialog(this, "Preencha com seu sexo");
+            }
+
+            dadosCadastro.setNome(nome);
+            dadosCadastro.setCpf(cpf);
+            dadosCadastro.setTelefone(telefone);
+            dadosCadastro.setEmail(email);
+            dadosCadastro.setNumeroSaude(numeroSaude);
+            dadosCadastro.setSenha(senha);
+            dadosCadastro.setSexo(sexo);
+
+            App.changeScreen("cadastroDois");
          } catch (Exception e) {
             e.printStackTrace();
          }

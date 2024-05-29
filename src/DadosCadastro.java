@@ -8,6 +8,8 @@ public class DadosCadastro {
    private String email;
    private String numeroSaude;
    private String senha;
+   private String sexo;
+
    private String alergias;
    private String medicacoes;
    private String condicoes;
@@ -20,6 +22,14 @@ public class DadosCadastro {
          instance = new DadosCadastro();
       }
       return instance;
+   }
+
+   public String getSexo() {
+      return sexo;
+   }
+
+   public void setSexo(String sexo) {
+      this.sexo = sexo;
    }
 
    public String getNome() {
