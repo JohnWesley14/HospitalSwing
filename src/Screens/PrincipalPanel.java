@@ -1,5 +1,9 @@
+package Screens;
 
 import javax.swing.*;
+
+import Entity.Usuario;
+import main.App;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -37,6 +41,7 @@ public class PrincipalPanel extends JPanel {
 
       btnAvaliacoes.addActionListener(this::irParaAvaliacoes);
       btnPerfil.addActionListener(this::irParaPerfil);
+      btnAgendamento.addActionListener(this::irParaConsulta);
 
       centerPanel.add(btnAgendamento);
       centerPanel.add(btnPerfil);
@@ -54,8 +59,8 @@ public class PrincipalPanel extends JPanel {
 
    public void irParaAvaliacoes(ActionEvent e) {
 
-      DadosCadastro dadosCadastro = DadosCadastro.getInstance();
-      String cpf = dadosCadastro.getCpf();
+      Usuario usuario = new Usuario().getInstance();
+      String cpf = usuario.getCpf();
       System.out.print("Cpf: ");
       System.out.println(cpf);
       System.out.println("");
@@ -65,6 +70,10 @@ public class PrincipalPanel extends JPanel {
 
    public void irParaPerfil(ActionEvent e) {
       App.changeScreen("perfil");
+   }
+
+   public void irParaConsulta(ActionEvent e) {
+      App.changeScreen("agendarConsulta");
    }
 
 }

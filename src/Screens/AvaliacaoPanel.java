@@ -1,5 +1,10 @@
+package Screens;
 
 import javax.swing.*;
+
+import Database.DatabaseConnection;
+import Entity.Usuario;
+import main.App;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -67,8 +72,8 @@ public class AvaliacaoPanel extends JPanel {
       Connection connectDBAvaliacao = connectAvaliacao.getConnection();
 
       try {
-         DadosCadastro dadosCadastro = DadosCadastro.getInstance();
-         String cpf = dadosCadastro.getCpf();
+         final Usuario usuario = new Usuario().getInstance();
+         String cpf = usuario.getCpf();
          System.out.print("Cpf AvaliacaoPanel: ");
          System.out.println(cpf);
          System.out.println("");

@@ -1,4 +1,14 @@
+package main;
+
 import javax.swing.*;
+
+import Screens.AvaliacaoPanel;
+import Screens.CadastroDoisPanel;
+import Screens.CadastroPanel;
+import Screens.ConsultaPanel;
+import Screens.LoginPanel;
+import Screens.PerfilPanel;
+import Screens.PrincipalPanel;
 
 import java.awt.*;
 

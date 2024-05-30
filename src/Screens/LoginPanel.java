@@ -1,6 +1,11 @@
+package Screens;
 
 import javax.swing.*;
 import javax.swing.text.MaskFormatter;
+
+import Database.DatabaseConnection;
+import Entity.Usuario;
+import main.App;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -62,7 +67,7 @@ public class LoginPanel extends JPanel {
          if (queryOutput.next()) {
             String senhaDB = queryOutput.getString("senha");
             if (senhaDB.equals(senha)) {
-               DadosCadastro dadosCadastro = DadosCadastro.getInstance();
+               Usuario usuario = new Usuario().getInstance();
 
                String nome = queryOutput.getString("nome_completo");
                String email = queryOutput.getString("email");
@@ -75,19 +80,19 @@ public class LoginPanel extends JPanel {
                String condicoes = queryOutput.getString("condicoes_medicas_preexistentes");
                String historico = queryOutput.getString("historico_medico");
 
-               dadosCadastro.setSenha(new String(campoSenha.getPassword()));
-               dadosCadastro.setCpf(campoCPF.getText());
+               usuario.setSenha(new String(campoSenha.getPassword()));
+               usuario.setCpf(campoCPF.getText());
 
-               dadosCadastro.setNome(nome);
-               dadosCadastro.setEmail(email);
+               usuario.setNome(nome);
+               usuario.setEmail(email);
 
-               dadosCadastro.setSexo(sexo);
-               dadosCadastro.setAlergias(alergias);
-               dadosCadastro.setSeguro(seguro);
-               dadosCadastro.setMedicacoes(medicacoes);
-               dadosCadastro.setCondicoes(condicoes);
-               dadosCadastro.setHistorico(historico);
-               dadosCadastro.setTelefone(telefone);
+               usuario.setSexo(sexo);
+               usuario.setAlergias(alergias);
+               usuario.setSeguro(seguro);
+               usuario.setMedicacoes(medicacoes);
+               usuario.setCondicoes(condicoes);
+               usuario.setHistorico(historico);
+               usuario.setTelefone(telefone);
 
                App.changeScreen("principal");
             } else {

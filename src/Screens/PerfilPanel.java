@@ -1,5 +1,9 @@
+package Screens;
 
 import javax.swing.*;
+
+import Entity.Usuario;
+import main.App;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
@@ -30,20 +34,20 @@ public class PerfilPanel extends JPanel {
    }
 
    public void puxarInfoPerfil(ActionEvent e) {
-      DadosCadastro dadosCadastro = DadosCadastro.getInstance();
+      Usuario usuario = new Usuario().getInstance();
 
       // Recupera os dados do cadastro
-      String nome = dadosCadastro.getNome();
-      String cpf = dadosCadastro.getCpf();
-      String telefone = dadosCadastro.getTelefone();
-      String email = dadosCadastro.getEmail();
+      String nome = usuario.getNome();
+      String cpf = usuario.getCpf();
+      String telefone = usuario.getTelefone();
+      String email = usuario.getEmail();
 
-      String sexo = dadosCadastro.getSexo();
-      String alergias = dadosCadastro.getAlergias();
-      String medicacoes = dadosCadastro.getMedicacoes();
-      String condicoes = dadosCadastro.getCondicoes();
-      String seguro = dadosCadastro.getSeguro();
-      String historico = dadosCadastro.getHistorico();
+      String sexo = usuario.getSexo();
+      String alergias = usuario.getAlergias();
+      String medicacoes = usuario.getMedicacoes();
+      String condicoes = usuario.getCondicoes();
+      String seguro = usuario.getSeguro();
+      String historico = usuario.getHistorico();
 
       // Remova o método createInfo() daqui e chame-o diretamente
 
@@ -110,9 +114,9 @@ public class PerfilPanel extends JPanel {
    }
 
    public void abrirHistorico(ActionEvent e) {
-      DadosCadastro dadosCadastro = new DadosCadastro().getInstance();
+      Usuario usuario = new Usuario();
       try {
-         File arquivo = new File(dadosCadastro.getHistorico());
+         File arquivo = new File(usuario.getHistorico());
          Desktop.getDesktop().open(arquivo);
       } catch (IOException err) {
          err.printStackTrace();
