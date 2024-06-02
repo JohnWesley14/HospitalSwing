@@ -108,6 +108,7 @@ public class PerfilPanel extends JPanel {
       App.changeScreen("principal");
    }
 
+   @SuppressWarnings("static-access") // Retirar mensagem de erro
    public void abrirHistorico(ActionEvent e) {
       DadosCadastro dadosCadastro = new DadosCadastro().getInstance();
       try {

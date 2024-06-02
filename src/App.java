@@ -7,7 +7,7 @@ public class App {
     private static JPanel loginPanel;
     private static JPanel cadastroPanel;
     private static JPanel cadastroDoisPanel;
-    private static JPanel consultaPanel;
+
     private static JPanel principalPanel;
     private static JPanel avaliacaoPanel;
     private static JPanel perfilPanel;
@@ -26,7 +26,7 @@ public class App {
         cadastroPanel = createCadastroPanel();
         cadastroDoisPanel = createCadastroDoisPanel();
         principalPanel = createPrincipalPanel();
-        consultaPanel = createConsultaPanel();
+
         avaliacaoPanel = createAvaliacaoPanel();
         perfilPanel = createPerfilPanel();
 
@@ -34,7 +34,6 @@ public class App {
         frame.add(cadastroPanel, "cadastro");
         frame.add(cadastroDoisPanel, "cadastroDois");
         frame.add(principalPanel, "principal");
-        frame.add(consultaPanel, "agendarConsulta");
         frame.add(avaliacaoPanel, "avaliacao");
         frame.add(perfilPanel, "perfil");
 
@@ -58,10 +57,6 @@ public class App {
     private static JPanel createPrincipalPanel() {
 
         return new PrincipalPanel();
-    }
-
-    private static JPanel createConsultaPanel() {
-        return new ConsultaPanel();
     }
 
     private static JPanel createCadastroDoisPanel() {

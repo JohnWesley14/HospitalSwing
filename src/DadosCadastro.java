@@ -17,7 +17,7 @@ public class DadosCadastro {
    private String historico;
 
    // Getters and Setters for all fields
-   public static synchronized DadosCadastro getInstance() {
+   public synchronized static DadosCadastro getInstance() {
       if (instance == null) {
          instance = new DadosCadastro();
       }

@@ -3,11 +3,10 @@ import javax.swing.text.MaskFormatter;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 
 public class CadastroPanel extends JPanel {
 
+   @SuppressWarnings("unused")
    private String maskCampoTelefone;
    private String maskCampoCPF;
    private JTextField campoNomeCompleto;
@@ -76,34 +75,11 @@ public class CadastroPanel extends JPanel {
       }
    }
 
-   private void teste(ActionEvent e) {
-      String nome = campoNomeCompleto.getText();
-      String cpf = campoCPF.getText();
-      String telefone = campoTelefone.getText();
-      String email = campoEmail.getText();
-
-      String senha = new String(campoSenha.getPassword());
-
-      DadosCadastro dadosCadastro = DadosCadastro.getInstance();
-
-      dadosCadastro.setNome(nome);
-      dadosCadastro.setCpf(cpf);
-      dadosCadastro.setTelefone(telefone);
-      dadosCadastro.setEmail(email);
-
-      dadosCadastro.setSenha(senha);
-
-      App.changeScreen("cadastroDois");
-      System.out.println("iupi");
-
-   }
-
    private void realizarCadastro(ActionEvent event) {
       String nome = campoNomeCompleto.getText();
       String cpf = campoCPF.getText();
       String telefone = campoTelefone.getText();
       String email = campoEmail.getText();
-      String numeroSaude = campoNumeroSaude.getText();
       String senha = new String(campoSenha.getPassword());
 
       // Check which radio button is selected

@@ -3,7 +3,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.IOException;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
@@ -77,13 +77,7 @@ public class CadastroDoisPanel extends JPanel {
          txtHistorico.setText(selectedFile.getPath());
 
          // Abrir o arquivo com o aplicativo padrão associado
-         try {
-            System.out.print("selectedFile: ");
-            System.out.println(selectedFile);
-            Desktop.getDesktop().open(selectedFile);
-         } catch (IOException e) {
-            e.printStackTrace();
-         }
+
       }
    }
 
@@ -138,7 +132,6 @@ public class CadastroDoisPanel extends JPanel {
          App.changeScreen("login");
 
       } catch (Exception e) {
-         // TODO: handle exception
          e.printStackTrace();
       }
 
